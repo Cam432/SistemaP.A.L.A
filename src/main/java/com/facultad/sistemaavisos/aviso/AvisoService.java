@@ -30,7 +30,7 @@ public interface AvisoService {
 
     void eliminar(Long avisoId);
 
-    List<AvisoResumenResponse> listarDisponiblesParaPostulante(Long postulanteId);
+    List<AvisoResumenResponse> listarDisponibles();
 
-    AvisoDetalleResponse obtenerDetalleDisponibleParaPostulante(Long postulanteId, Long avisoId);
+    AvisoDetalleResponse obtenerDetalleDisponible(Long avisoId);
 }

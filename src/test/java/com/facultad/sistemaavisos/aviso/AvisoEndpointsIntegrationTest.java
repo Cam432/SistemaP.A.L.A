@@ -1,5 +1,7 @@
 package com.facultad.sistemaavisos.aviso;
 
+import io.jsonwebtoken.Jwts;
+import io.jsonwebtoken.security.Keys;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -12,7 +14,11 @@ import org.springframework.test.web.servlet.MockMvc;
 import tools.jackson.databind.JsonNode;
 import tools.jackson.databind.ObjectMapper;
 
+import javax.crypto.SecretKey;
+import java.nio.charset.StandardCharsets;
 import java.time.Instant;
+import java.util.Date;
+import java.util.List;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
@@ -25,11 +31,14 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @SpringBootTest
 @AutoConfigureMockMvc
 @TestPropertySource(properties = {
-        "spring.jpa.hibernate.ddl-auto=create-drop"
+        "spring.jpa.hibernate.ddl-auto=create-drop",
+        "security.jwt.secret=test-secret-pala-2026-test-secret-pala-2026"
 })
 @Sql(scripts = "/sql/cleanup-aviso-endpoints.sql", executionPhase = ExecutionPhase.BEFORE_TEST_METHOD)
 @Sql(scripts = "/sql/seed-aviso-endpoints.sql", executionPhase = ExecutionPhase.BEFORE_TEST_METHOD)
 class AvisoEndpointsIntegrationTest {
+
+    private static final String TEST_SECRET = "test-secret-pala-2026-test-secret-pala-2026";
 
     @Autowired
     private MockMvc mockMvc;
@@ -39,7 +48,8 @@ class AvisoEndpointsIntegrationTest {
 
     @Test
     void obtieneSoporteDelFormularioConEmpresasCarrerasYTiposActivos() throws Exception {
-        mockMvc.perform(get("/api/reclutadores/{reclutadorId}/avisos/soporte", 1L))
+        mockMvc.perform(get("/api/reclutadores/{reclutadorId}/avisos/soporte", 1L)
+                        .header("Authorization", bearerReclutador("reclu@test.com")))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.empresasActivas.length()").value(1))
                 .andExpect(jsonPath("$.empresasActivas[0].id").value(1))
@@ -71,6 +81,7 @@ class AvisoEndpointsIntegrationTest {
                 """.formatted(Instant.parse("2026-07-01T00:00:00Z"));
 
         final String crearResponse = mockMvc.perform(post("/api/reclutadores/{reclutadorId}/avisos", 1L)
+                        .header("Authorization", bearerReclutador("reclu@test.com"))
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(crearRequest))
                 .andExpect(status().isCreated())
@@ -85,7 +96,8 @@ class AvisoEndpointsIntegrationTest {
         final Long avisoId = objectMapper.readTree(crearResponse).path("id").asLong();
         assertThat(avisoId).isNotNull();
 
-        mockMvc.perform(get("/api/reclutadores/{reclutadorId}/avisos/{avisoId}", 1L, avisoId))
+        mockMvc.perform(get("/api/reclutadores/{reclutadorId}/avisos/{avisoId}", 1L, avisoId)
+                        .header("Authorization", bearerReclutador("reclu@test.com")))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.id").value(avisoId))
                 .andExpect(jsonPath("$.estadoActual.codigoInterno").value("BORRADOR"));
@@ -110,6 +122,7 @@ class AvisoEndpointsIntegrationTest {
                 """.formatted(Instant.parse("2026-07-15T00:00:00Z"));
 
         mockMvc.perform(put("/api/reclutadores/{reclutadorId}/avisos/{avisoId}", 1L, avisoId)
+                        .header("Authorization", bearerReclutador("reclu@test.com"))
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(actualizarRequest))
                 .andExpect(status().isOk())
@@ -119,16 +132,19 @@ class AvisoEndpointsIntegrationTest {
                 .andExpect(jsonPath("$.carreras[0].id").value(2))
                 .andExpect(jsonPath("$.tiposAviso[0].subTiposAviso.length()").isNotEmpty());
 
-        mockMvc.perform(patch("/api/reclutadores/{reclutadorId}/avisos/{avisoId}/pausar", 1L, avisoId))
+        mockMvc.perform(patch("/api/reclutadores/{reclutadorId}/avisos/{avisoId}/pausar", 1L, avisoId)
+                        .header("Authorization", bearerReclutador("reclu@test.com")))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.estadoActual.codigoInterno").value("PAUSADO"));
 
-        mockMvc.perform(patch("/api/reclutadores/{reclutadorId}/avisos/{avisoId}/reanudar", 1L, avisoId))
+        mockMvc.perform(patch("/api/reclutadores/{reclutadorId}/avisos/{avisoId}/reanudar", 1L, avisoId)
+                        .header("Authorization", bearerReclutador("reclu@test.com")))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.estadoActual.codigoInterno").value("ABIERTO"));
 
         final String cancelarResponse = mockMvc.perform(
                         patch("/api/reclutadores/{reclutadorId}/avisos/{avisoId}/cancelar", 1L, avisoId)
+                                .header("Authorization", bearerReclutador("reclu@test.com"))
                 )
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.estadoActual.codigoInterno").value("CANCELADO"))
@@ -139,5 +155,23 @@ class AvisoEndpointsIntegrationTest {
         final JsonNode cancelado = objectMapper.readTree(cancelarResponse);
         assertThat(cancelado.path("tiposAviso").size()).isEqualTo(2);
         assertThat(cancelado.path("carreras").size()).isEqualTo(1);
+    }
+
+    private String bearerReclutador(String mail) {
+        final SecretKey secretKey = Keys.hmacShaKeyFor(TEST_SECRET.getBytes(StandardCharsets.UTF_8));
+        final Date ahora = new Date();
+        final Date expiracion = new Date(ahora.getTime() + 60_000);
+
+        final String token = Jwts.builder()
+                .subject("1")
+                .claim("mail", mail)
+                .claim("roles", List.of("Reclutador"))
+                .claim("permisos", List.of("AVISO_CREAR", "AVISO_EDITAR"))
+                .issuedAt(ahora)
+                .expiration(expiracion)
+                .signWith(secretKey)
+                .compact();
+
+        return "Bearer " + token;
     }
 }

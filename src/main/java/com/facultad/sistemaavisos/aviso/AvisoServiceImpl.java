@@ -16,7 +16,6 @@ import com.facultad.sistemaavisos.empresa.Empresa;
 import com.facultad.sistemaavisos.empresa.EmpresaRepository;
 import com.facultad.sistemaavisos.estadoaviso.EstadoAviso;
 import com.facultad.sistemaavisos.estadoaviso.EstadoAvisoRepository;
-import com.facultad.sistemaavisos.postulante.PostulanteRepository;
 import com.facultad.sistemaavisos.reclutador.Reclutador;
 import com.facultad.sistemaavisos.reclutador.ReclutadorRepository;
 import com.facultad.sistemaavisos.reclutadorempresa.ReclutadorEmpresaRepository;
@@ -52,7 +51,6 @@ public class AvisoServiceImpl implements AvisoService {
     private static final String CODIGO_ESTADO_CANCELADO = "CANCELADO";
 
     private final AvisoRepository avisoRepository;
-    private final PostulanteRepository postulanteRepository;
     private final EmpresaRepository empresaRepository;
     private final ReclutadorRepository reclutadorRepository;
     private final EstadoAvisoRepository estadoAvisoRepository;
@@ -265,8 +263,7 @@ public class AvisoServiceImpl implements AvisoService {
     }
 
     @Override
-    public List<AvisoResumenResponse> listarDisponiblesParaPostulante(Long postulanteId) {
-        validarPostulanteActivo(postulanteId);
+    public List<AvisoResumenResponse> listarDisponibles() {
         return avisoRepository
                 .findDistinctByEstadoActual_CodigoInternoAndFechaBajaAvisoIsNullAndEstadoActual_FechaBajaEstadoAvisoIsNull(
                         CODIGO_ESTADO_DISPONIBLE
@@ -277,8 +274,7 @@ public class AvisoServiceImpl implements AvisoService {
     }
 
     @Override
-    public AvisoDetalleResponse obtenerDetalleDisponibleParaPostulante(Long postulanteId, Long avisoId) {
-        validarPostulanteActivo(postulanteId);
+    public AvisoDetalleResponse obtenerDetalleDisponible(Long avisoId) {
         final Aviso aviso = avisoRepository
                 .findByIdAndEstadoActual_CodigoInternoAndFechaBajaAvisoIsNullAndEstadoActual_FechaBajaEstadoAvisoIsNull(
                         avisoId,
@@ -288,13 +284,6 @@ public class AvisoServiceImpl implements AvisoService {
                         "No se encontro un aviso disponible con id: " + avisoId
                 ));
         return toDetalleResponse(aviso);
-    }
-
-    private void validarPostulanteActivo(Long postulanteId) {
-        postulanteRepository.findByIdAndFechaBajaPostulanteIsNull(postulanteId)
-                .orElseThrow(() -> new RecursoNoEncontradoException(
-                        "No se encontro el postulante activo con id: " + postulanteId
-                ));
     }
 
     private Reclutador buscarReclutadorActivoPorId(Long reclutadorId) {

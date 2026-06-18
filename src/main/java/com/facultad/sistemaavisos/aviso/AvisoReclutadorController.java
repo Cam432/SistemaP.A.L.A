@@ -5,6 +5,7 @@ import com.facultad.sistemaavisos.aviso.dto.request.AvisoCreateRequest;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PatchMapping;
@@ -25,6 +26,7 @@ public class AvisoReclutadorController {
 
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
+    @PreAuthorize("hasRole('Reclutador') and @authorizationService.esReclutador(#reclutadorId)")
     public AvisoResponse crearAviso(
             @PathVariable Long reclutadorId,
             @RequestBody @Valid AvisoCreateRequest request
@@ -33,6 +35,7 @@ public class AvisoReclutadorController {
     }
 
     @GetMapping("/{avisoId}")
+    @PreAuthorize("hasRole('Reclutador') and @authorizationService.esReclutador(#reclutadorId)")
     public AvisoResponse obtenerAviso(
             @PathVariable Long reclutadorId,
             @PathVariable Long avisoId
@@ -41,6 +44,7 @@ public class AvisoReclutadorController {
     }
 
     @PutMapping("/{avisoId}")
+    @PreAuthorize("hasRole('Reclutador') and @authorizationService.esReclutador(#reclutadorId)")
     public AvisoResponse actualizarAviso(
             @PathVariable Long reclutadorId,
             @PathVariable Long avisoId,
@@ -50,6 +54,7 @@ public class AvisoReclutadorController {
     }
 
     @PatchMapping("/{avisoId}/pausar")
+    @PreAuthorize("hasRole('Reclutador') and @authorizationService.esReclutador(#reclutadorId)")
     public AvisoResponse pausarAviso(
             @PathVariable Long reclutadorId,
             @PathVariable Long avisoId
@@ -58,6 +63,7 @@ public class AvisoReclutadorController {
     }
 
     @PatchMapping("/{avisoId}/reanudar")
+    @PreAuthorize("hasRole('Reclutador') and @authorizationService.esReclutador(#reclutadorId)")
     public AvisoResponse reanudarAviso(
             @PathVariable Long reclutadorId,
             @PathVariable Long avisoId
@@ -66,6 +72,7 @@ public class AvisoReclutadorController {
     }
 
     @PatchMapping("/{avisoId}/cancelar")
+    @PreAuthorize("hasRole('Reclutador') and @authorizationService.esReclutador(#reclutadorId)")
     public AvisoResponse cancelarAviso(
             @PathVariable Long reclutadorId,
             @PathVariable Long avisoId

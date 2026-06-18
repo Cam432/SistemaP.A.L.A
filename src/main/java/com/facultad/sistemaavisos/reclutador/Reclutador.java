@@ -33,6 +33,9 @@ public class Reclutador {
     @Column(name = "nro_reclutador")
     private Long id;
 
+    @Column(name = "usuario_seguridad_id", unique = true)
+    private Long usuarioSeguridadId;
+
     @Column(name = "cuil_reclutador", nullable = false, unique = true, length = 20)
     private String cuilReclutador;
 

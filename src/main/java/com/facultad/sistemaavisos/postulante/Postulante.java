@@ -30,6 +30,9 @@ public class Postulante {
     @Column(name = "nro_postulante", nullable = false)
     private Long id;
 
+    @Column(name = "usuario_seguridad_id", unique = true)
+    private Long usuarioSeguridadId;
+
     @Column(name = "nombre_postulante", nullable = false)
     private String nombrePostulante;
 

@@ -28,6 +28,9 @@ public class Administrador {
     @Column(name = "nro_administrador")
     private Long id;
 
+    @Column(name = "usuario_seguridad_id", unique = true)
+    private Long usuarioSeguridadId;
+
     @Column(name = "apellido_administrador", nullable = false)
     private String apellidoAdministrador;
 
