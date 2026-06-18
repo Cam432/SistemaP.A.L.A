@@ -15,7 +15,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
-import java.time.LocalDateTime;
+import java.time.Instant;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -40,7 +40,7 @@ public class Reclutador {
     private String descripcionReclutador;
 
     @Column(name = "fecha_baja_reclutador")
-    private LocalDateTime fechaBajaReclutador;
+    private Instant fechaBajaReclutador;
 
     @Column(name = "mail_reclutador", nullable = false, unique = true)
     private String mailReclutador;

@@ -18,7 +18,7 @@ import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 import lombok.*;
 
-import java.time.LocalDateTime;
+import java.time.Instant;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -40,7 +40,7 @@ public class Postulacion {
     private String descripcionPostulacion;
 
     @Column(name = "fecha_postulacion")
-    private LocalDateTime fechaPostulacion;
+    private Instant fechaPostulacion;
 
     @Column(name = "url_cv_postulacion")
     private String urlCVPostulacion;

@@ -16,7 +16,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
-import java.time.LocalDateTime;
+import java.time.Instant;
 
 @Entity
 @Table(name = "subtipos_aviso")
@@ -37,10 +37,10 @@ public class SubTipoAviso {
     private TipoAviso tipoAviso;
 
     @Column(name = "fecha_alta_sub_tipo_aviso")
-    private LocalDateTime fechaAltaSubTipoAviso;
+    private Instant fechaAltaSubTipoAviso;
 
     @Column(name = "fecha_baja_sub_tipo_aviso")
-    private LocalDateTime fechaBajaSubTipoAviso;
+    private Instant fechaBajaSubTipoAviso;
 
     @Column(name = "nombre_sub_tipo_aviso", nullable = false)
     private String nombreSubTipoAviso;

@@ -12,7 +12,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
-import java.time.LocalDateTime;
+import java.time.Instant;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -37,10 +37,10 @@ public class Postulante {
     private String apellidoPostulante;
 
     @Column(name = "fecha_baja_postulante")
-    private LocalDateTime fechaBajaPostulante;
+    private Instant fechaBajaPostulante;
 
     @Column(name = "fecha_nacimiento_postulante")
-    private LocalDateTime fechaNacimientoPostulante;
+    private Instant fechaNacimientoPostulante;
 
     @Column(name = "legajo_academico_postulante", nullable = false, unique = true)
     private Long legajoAcademicoPostulante;

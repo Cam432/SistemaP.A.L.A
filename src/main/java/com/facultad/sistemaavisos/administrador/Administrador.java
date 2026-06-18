@@ -12,7 +12,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
-import java.time.LocalDateTime;
+import java.time.Instant;
 
 @Entity
 @Table(name = "administradores")
@@ -32,10 +32,10 @@ public class Administrador {
     private String apellidoAdministrador;
 
     @Column(name = "fecha_alta_administrador")
-    private LocalDateTime fechaAltaAdministrador;
+    private Instant fechaAltaAdministrador;
 
     @Column(name = "fecha_baja_administrador")
-    private LocalDateTime fechaBajaAdministrador;
+    private Instant fechaBajaAdministrador;
 
     @Column(name = "legajo_administrador", nullable = false, unique = true)
     private Long legajoAdministrador;

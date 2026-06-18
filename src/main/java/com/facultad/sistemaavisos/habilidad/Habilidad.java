@@ -12,7 +12,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
-import java.time.LocalDateTime;
+import java.time.Instant;
 
 @Entity
 @Table(name = "habilidades")
@@ -29,7 +29,7 @@ public class Habilidad {
     private Long id;
 
     @Column(name = "fecha_baja_habilidad")
-    private LocalDateTime fechaBajaHabilidad;
+    private Instant fechaBajaHabilidad;
 
     @Column(name = "nombre_habilidad", nullable = false)
     private String nombreHabilidad;

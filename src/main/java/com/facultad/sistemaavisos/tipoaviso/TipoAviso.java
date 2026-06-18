@@ -15,7 +15,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
-import java.time.LocalDateTime;
+import java.time.Instant;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -37,10 +37,10 @@ public class TipoAviso {
     private String descripcionTipoAviso;
 
     @Column(name = "fecha_baja_tipo_aviso")
-    private LocalDateTime fechaBajaTipoAviso;
+    private Instant fechaBajaTipoAviso;
 
     @Column(name = "fecha_hora_alta_tipo_aviso")
-    private LocalDateTime fechaHoraAltaTipoAviso;
+    private Instant fechaHoraAltaTipoAviso;
 
     @Column(name = "nombre_tipo_aviso", nullable = false, unique = true)
     private String nombreTipoAviso;

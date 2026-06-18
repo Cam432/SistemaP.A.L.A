@@ -19,7 +19,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
-import java.time.LocalDateTime;
+import java.time.Instant;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -41,10 +41,10 @@ public class SolicitudAsociacion {
     private String cuitEmpresaSolicitud;
 
     @Column(name = "fecha_envio_solicitud")
-    private LocalDateTime fechaEnvioSolicitud;
+    private Instant fechaEnvioSolicitud;
 
     @Column(name = "fecha_resolucion")
-    private LocalDateTime fechaResolucion;
+    private Instant fechaResolucion;
 
     @Column(name = "mail_empresa_solicitud", nullable = false)
     private String mailEmpresaSolicitud;
@@ -56,7 +56,7 @@ public class SolicitudAsociacion {
     private String telefonoEmpresaSolicitud;
 
     @Column(name = "fecha_baja_solicitud_asociacion")
-    private LocalDateTime fechaBajaSolicitudAsociacion;
+    private Instant fechaBajaSolicitudAsociacion;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "cod_estado_solicitud", nullable = false)

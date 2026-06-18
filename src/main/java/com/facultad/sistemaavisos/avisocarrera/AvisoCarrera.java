@@ -17,7 +17,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
-import java.time.LocalDateTime;
+import java.time.Instant;
 
 @Entity
 @Table(name = "avisos_carreras")
@@ -45,8 +45,8 @@ public class AvisoCarrera {
     private Carrera carrera;
 
     @Column(name = "fecha_asignacion_carrera")
-    private LocalDateTime fechaAsignacionCarrera;
+    private Instant fechaAsignacionCarrera;
 
     @Column(name = "fecha_desasignacion_carrera")
-    private LocalDateTime fechaDesasignacionCarrera;
+    private Instant fechaDesasignacionCarrera;
 }

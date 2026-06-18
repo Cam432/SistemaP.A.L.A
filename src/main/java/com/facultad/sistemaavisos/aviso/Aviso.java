@@ -20,7 +20,7 @@ import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 import lombok.*;
 
-import java.time.LocalDateTime;
+import java.time.Instant;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -42,16 +42,16 @@ public class Aviso {
     private String descripcionAviso;
 
     @Column(name = "fecha_baja_aviso")
-    private LocalDateTime fechaBajaAviso;
+    private Instant fechaBajaAviso;
 
     @Column(name = "fecha_cierre_aviso")
-    private LocalDateTime fechaCierreAviso;
+    private Instant fechaCierreAviso;
 
     @Column(name = "fecha_creacion_aviso")
-    private LocalDateTime fechaCreacionAviso;
+    private Instant fechaCreacionAviso;
 
     @Column(name = "fecha_publicacion_aviso")
-    private LocalDateTime fechaPublicacionAviso;
+    private Instant fechaPublicacionAviso;
 
     @Column(name = "imagen_url_aviso")
     private String imagenUrlAviso;

@@ -17,7 +17,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
-import java.time.LocalDateTime;
+import java.time.Instant;
 
 @Entity
 @Table(name = "postulaciones_estados")
@@ -42,8 +42,8 @@ public class PostulacionEstado {
     private EstadoPostulacion estadoPostulacion;
 
     @Column(name = "fecha_inicio_vigencia_ep")
-    private LocalDateTime fechaInicioVigenciaEP;
+    private Instant fechaInicioVigenciaEP;
 
     @Column(name = "fecha_fin_vigencia_ep")
-    private LocalDateTime fechaFinVigenciaEP;
+    private Instant fechaFinVigenciaEP;
 }

@@ -12,7 +12,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
-import java.time.LocalDateTime;
+import java.time.Instant;
 
 @Entity
 @Table(name = "estados_solicitud")
@@ -28,11 +28,14 @@ public class EstadoSolicitud {
     @Column(name = "cod_estado_solicitud")
     private Long id;
 
+    @Column(name = "codigo_interno_estado_solicitud", nullable = false, unique = true, length = 50)
+    private String codigoInterno;
+
     @Column(name = "fecha_alta_estado_solicitud")
-    private LocalDateTime fechaAltaEstadoSolicitud;
+    private Instant fechaAltaEstadoSolicitud;
 
     @Column(name = "fecha_baja_estado_solicitud")
-    private LocalDateTime fechaBajaEstadoSolicitud;
+    private Instant fechaBajaEstadoSolicitud;
 
     @Column(name = "nombre_estado_solicitud", nullable = false, unique = true)
     private String nombreEstadoSolicitud;

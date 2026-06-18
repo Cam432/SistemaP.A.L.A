@@ -20,7 +20,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
-import java.time.LocalDateTime;
+import java.time.Instant;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -47,10 +47,10 @@ public class AvisoTipoAviso {
     private TipoAviso tipoAviso;
 
     @Column(name = "fecha_hora_asignacion_tipo_aviso")
-    private LocalDateTime fechaHoraAsignacionTipoAviso;
+    private Instant fechaHoraAsignacionTipoAviso;
 
     @Column(name = "fecha_hora_desasignacion_aviso_tipo_aviso")
-    private LocalDateTime fechaHoraDesasignacionAvisoTipoAviso;
+    private Instant fechaHoraDesasignacionAvisoTipoAviso;
 
     @Builder.Default
     @OneToMany(mappedBy = "avisoTipoAviso", fetch = FetchType.LAZY, cascade = CascadeType.ALL, orphanRemoval = true)

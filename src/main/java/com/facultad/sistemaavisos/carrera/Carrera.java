@@ -3,7 +3,7 @@ package com.facultad.sistemaavisos.carrera;
 import jakarta.persistence.*;
 import lombok.*;
 
-import java.time.LocalDateTime;
+import java.time.Instant;
 
 @Entity
 @Table(name = "carreras")
@@ -23,13 +23,13 @@ public class Carrera {
     private String descripcionCarrera;
 
     @Column(name = "fecha_actualizacion_carrera")
-    private LocalDateTime fechaActualizacionCarrera;
+    private Instant fechaActualizacionCarrera;
 
     @Column(name = "fecha_alta_carrera")
-    private LocalDateTime fechaAltaCarrera;
+    private Instant fechaAltaCarrera;
 
     @Column(name = "fecha_baja_carrera")
-    private LocalDateTime fechaBajaCarrera;
+    private Instant fechaBajaCarrera;
 
     @Column(name = "nombre_carrera", nullable = false)
     private String nombreCarrera;
