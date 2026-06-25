@@ -15,7 +15,7 @@ public class JwtService {
 
     private final String secretKey;
 
-    public JwtService(@Value("${security.jwt.secret}") String secretKey) {
+    public JwtService(@Value("${security.subsystem.jwt.secret}") String secretKey) {
         this.secretKey = secretKey;
     }
 
